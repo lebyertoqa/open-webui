@@ -38,7 +38,8 @@ app = FastAPI(
     description="A web interface for interacting with large language models.",
     version="0.1.0",
     lifespan=lifespan,
-    docs_url="/docs" if os.getenv("ENV", "dev") == "dev" else None,
+    # Keep docs available in both dev and prod for personal use
+    docs_url="/docs",
     redoc_url=None,
 )
 
@@ -92,27 +93,3 @@ if os.path.exists(FRONTEND_BUILD_DIR):
     app.mount(
         "/",
         StaticFiles(directory=FRONTEND_BUILD_DIR, html=True),
-        name="frontend",
-    )
-    log.info("Serving frontend from %s", FRONTEND_BUILD_DIR)
-else:
-    log.warning(
-        "Frontend build directory '%s' not found — skipping static mount.",
-        FRONTEND_BUILD_DIR,
-    )
-
-
-# ---------------------------------------------------------------------------
-# Entry point (development server)
-# ---------------------------------------------------------------------------
-
-if __name__ == "__main__":
-    import uvicorn
-
-    uvicorn.run(
-        "main:app",
-        host=os.getenv("HOST", "0.0.0.0"),
-        port=int(os.getenv("PORT", 8080)),
-        reload=os.getenv("ENV", "dev") == "dev",
-        log_level="info",
-    )
