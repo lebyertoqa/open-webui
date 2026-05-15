@@ -48,8 +48,9 @@ app = FastAPI(
 # ---------------------------------------------------------------------------
 
 # Added port 3000 since I sometimes run the Vite dev server on that port locally
+# Also added port 4173 for `vite preview` builds
 CORS_ALLOW_ORIGINS = os.getenv(
-    "CORS_ALLOW_ORIGIN", "http://localhost:3000,http://localhost:5173,http://localhost:8080"
+    "CORS_ALLOW_ORIGIN", "http://localhost:3000,http://localhost:4173,http://localhost:5173,http://localhost:8080"
 ).split(",")
 
 app.add_middleware(
@@ -90,14 +91,4 @@ async def generic_exception_handler(request: Request, exc: Exception):
 
 FRONTEND_BUILD_DIR = os.getenv("FRONTEND_BUILD_DIR", "../build")
 
-if os.path.exists(FRONTEND_BUILD_DIR):
-    app.mount(
-        "/",
-        StaticFiles(directory=FRONTEND_BUILD_DIR, html=True),
-        name="frontend",
-    )
-else:
-    log.warning(
-        "Frontend build directory '%s' not found. Skipping static file mount.",
-        FRONTEND_BUILD_DIR,
-    )
+if os.path
