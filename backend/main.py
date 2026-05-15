@@ -89,6 +89,11 @@ async def generic_exception_handler(request: Request, exc: Exception):
 # Static files (built SvelteKit frontend)
 # ---------------------------------------------------------------------------
 
+# Serve the built frontend if the dist directory exists; skip silently in dev
+# so `uvicorn backend.main:app --reload` still works without a prior `npm run build`.
 FRONTEND_BUILD_DIR = os.getenv("FRONTEND_BUILD_DIR", "../build")
-
-if os.path
+if os.path.isdir(FRONTEND_BUILD_DIR):
+    app.mount("/", StaticFiles(directory=FRONTEND_BUILD_DIR, html=True), name="frontend")
+    log.info("Serving static frontend from: %s", FRONTEND_BUILD_DIR)
+else:
+    log.info("Frontend build directory '%s' not found — skipping static file mount.", FRONTEND_BUILD_DIR)
