@@ -49,8 +49,9 @@ app = FastAPI(
 
 # Added port 3000 since I sometimes run the Vite dev server on that port locally
 # Also added port 4173 for `vite preview` builds
+# Added port 8888 for when I run Jupyter alongside the backend during experiments
 CORS_ALLOW_ORIGINS = os.getenv(
-    "CORS_ALLOW_ORIGIN", "http://localhost:3000,http://localhost:4173,http://localhost:5173,http://localhost:8080"
+    "CORS_ALLOW_ORIGIN", "http://localhost:3000,http://localhost:4173,http://localhost:5173,http://localhost:8080,http://localhost:8888"
 ).split(",")
 
 app.add_middleware(
@@ -88,10 +89,3 @@ async def generic_exception_handler(request: Request, exc: Exception):
             "path": request.url.path,
         },
     )
-
-
-# ---------------------------------------------------------------------------
-# Static files (built SvelteKit frontend)
-# ---------------------------------------------------------------------------
-
-# Ser
