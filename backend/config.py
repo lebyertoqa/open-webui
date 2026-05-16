@@ -36,10 +36,11 @@ JWT_ALGORITHM = "HS256"
 JWT_EXPIRES_IN = int(os.getenv("JWT_EXPIRES_IN", 60 * 60 * 24 * 7))  # 7 days in seconds
 
 # Whether new user registrations are allowed
-ENABLE_SIGNUP = os.getenv("ENABLE_SIGNUP", "true").lower() == "true"
+# Disabled by default for personal use — I'm the only user
+ENABLE_SIGNUP = os.getenv("ENABLE_SIGNUP", "false").lower() == "true"
 
 # Default user role assigned on signup
-DEFAULT_USER_ROLE = os.getenv("DEFAULT_USER_ROLE", "user")  # "user" | "admin" | "pending"
+DEFAULT_USER_ROLE = os.getenv("DEFAULT_USER_ROLE", "admin")  # "user" | "admin" | "pending"
 
 ####################################
 # CORS
