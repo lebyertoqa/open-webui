@@ -85,7 +85,8 @@ async def generic_exception_handler(request: Request, exc: Exception):
     return JSONResponse(
         status_code=500,
         content={
-            "detail": "An internal server error occurred.",
+            "detail": "Internal server error",
+            # Handy for local debugging; strip this out before any public deployment
             "path": request.url.path,
         },
     )
